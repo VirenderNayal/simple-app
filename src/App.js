@@ -1,14 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Container, Nav, Card, Form, Button, Row, Col } from "react-bootstrap";
+import { Navbar, Container, Nav, Card, Form, Button, Row, Col, InputGroup } from "react-bootstrap";
+import TimePicker from "react-bootstrap-time-picker";
 
 function App() {
   return (
     <>
       <Navbar bg="primary" variant="dark" expand='lg' >
         <Container>
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav"> {/* For Hamburger button */}
+          <Navbar.Brand href="#home" className="order-md-0 mx-auto order-1">Navbar</Navbar.Brand>
+          <Navbar.Toggle className="order-md-0 order-0" aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav" className="order-md-0 order-1"> {/* For Hamburger button */}
             <Nav className="me-auto">
               <Nav.Link href="#home">Home</Nav.Link>
               <Nav.Link href="#features">Features</Nav.Link>
@@ -19,33 +20,65 @@ function App() {
       </Navbar>
 
       <Container>
-        <Card className='container my-5 p-3'>
+        <Card className="p-3 mt-5">
           <Row>
-            <Col className="px-5" >
+            <Col md>
               <Form>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
-                </Form.Group>
-
                 <Form.Group className="mb-3">
                   <Form.Label>Phone</Form.Label>
-                  <Form.Control type="phone" placeholder="Enter Phone Number" />
+                  <InputGroup>
+                    <InputGroup.Text>+91</InputGroup.Text>
+                    <Form.Control type="phone" placeholder="98XXXXXXXX" />
+                  </InputGroup>
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control type="email" placeholder="example@mail.com" />
+                </Form.Group>
+
+
+                <Row className="my-3">
+                  <Col>
+                    <Form.Group>
+                      <Form.Label>Start Time</Form.Label>
+                      <TimePicker
+                        start="8:00"
+                        end="22:00"
+                        step={60}
+                      // value
+                      // onChange
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label>End Time</Form.Label>
+                      <TimePicker
+                        start="8:00"
+                        end="22:00"
+                        step={60}
+                      // value
+                      // onChange
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                <Button className="mb-3" variant="primary" type="submit">
                   Submit
                 </Button>
               </Form>
             </Col>
-            <Col>
-              <Row>
-                <Col>1</Col>
-                <Col>2</Col>
-              </Row>
-              <Row>
-                <Col>3</Col>
-                <Col>4</Col>
+            <Col md>
+              <Row xs={1} md={2} className="g-4">
+                {Array.from({ length: 4 }).map((_, idx) => (
+                  <Col>
+                    <Card>
+                      <Card.Img variant="top" src="https://picsum.photos/200/150?dark" width="200px" height="150px" />
+                    </Card>
+                  </Col>
+                ))}
               </Row>
             </Col>
           </Row>
