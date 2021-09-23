@@ -1,21 +1,25 @@
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Container, Nav, Card, Form, Button, Row, Col, InputGroup, Alert } from "react-bootstrap";
+import { Navbar, Container, Nav, Card, Form, Button, Row, Col, InputGroup } from "react-bootstrap";
 import TimePicker from "react-bootstrap-time-picker";
 
 function App() {
-  const [validated, setValidated] = useState(false);
-  const [hidden, setHidden] = useState(true);
   const [data, setData] = useState({
     phone: "",
     email: "",
-    invalid: false,
+    invalidEmail: false,
+    invalidPhone: false,
   });
   const [time, setTime] = useState({
     start: 28800,
     end: 32400,
     error: "",
   });
+
+  function validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
 
   const setInput = (event) => {
     const { name, value } = event.target;
@@ -28,17 +32,15 @@ function App() {
     });
   }
 
+
   const handleSubmit = (event) => {
-    const current = event.currentTarget;
-    if (current.checkValidity() === false) {
-      event.stopPropagation();
-    }
-    setValidated(true);
+    event.preventDefault();
 
     setData(previousData => {
       return {
         ...previousData,
-        invalid: (data.phone.length > 10 || isNaN(data.phone)) ? true : false,
+        invalidPhone: (data.phone.length > 10 || isNaN(data.phone)) ? true : false,
+        invalidEmail: !validateEmail(data.email),
       }
     });
 
@@ -49,15 +51,10 @@ function App() {
       }
     });
 
-    event.preventDefault();
   }
 
-  const afterSubmit = () => {
-    if (!(time.error || data.invalid || validated)) { setHidden(false); }
-    console.log(data);
-    console.log(time);
-  }
-
+  console.log(data);
+  console.log(time);
 
   return (
     <>
@@ -76,11 +73,10 @@ function App() {
       </Navbar>
 
       <Container>
-        <Alert hidden={hidden} variant="success" className="mt-2">Data Submitted Successfully!!!</Alert>
         <Card className="p-3 mt-5">
           <Row>
             <Col md>
-              <Form noValidate validated={validated} onSubmit={handleSubmit}>
+              <Form noValidate onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="phone">
                   <Form.Label>Phone</Form.Label>
                   <InputGroup hasValidation>
@@ -91,7 +87,7 @@ function App() {
                       onChange={setInput}
                       name="phone"
                       value={data.phone}
-                      isInvalid={data.invalid}
+                      isInvalid={data.invalidPhone}
                     />
                     <Form.Control.Feedback type="invalid">Please enter a valid number.</Form.Control.Feedback>
                   </InputGroup>
@@ -100,15 +96,16 @@ function App() {
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
                   <Form.Control
-                    required type="email"
+                    required
+                    type="email"
                     placeholder="example@mail.com"
                     onChange={setInput}
                     value={data.email}
                     name="email"
+                    isInvalid={data.invalidEmail}
                   />
                   <Form.Control.Feedback type="invalid">Please enter a valid email.</Form.Control.Feedback>
                 </Form.Group>
-
 
                 <Form.Group>
                   <Row className="my-3">
@@ -118,7 +115,7 @@ function App() {
                         start="8:00"
                         end="22:00"
                         step={60}
-                        name="startTime"
+                        name="start"
                         onChange={(e) => { setTime(d => { return { ...d, start: e } }) }}
                         value={time.start}
                         isInvalid={time.error}
