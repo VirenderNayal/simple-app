@@ -7,9 +7,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
-    "axios": "^0.24.0",
     "bootstrap": "^5.1.1",
-    "express": "^4.17.1",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.3",
     "react-bootstrap-time-picker": "^2.0.1",
@@ -45,6 +43,5 @@
   },
   "devDependencies": {
     "gh-pages": "^3.2.3"
-  },
-  "proxy": "http://localhost:3300"
+  }
 }

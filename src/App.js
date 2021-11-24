@@ -1,19 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Container, Nav, Card, Form, Button, Row, Col, InputGroup } from "react-bootstrap";
-import axios from 'axios';
 import TimePicker from "react-bootstrap-time-picker";
 
 function App() {
-  const fetchData = async () => {
-    const response = await axios.get("/backend");
-    console.log(response.data);
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, [])
-
   const [data, setData] = useState({
     phone: "",
     email: "",
